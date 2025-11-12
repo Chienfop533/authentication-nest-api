@@ -71,10 +71,10 @@ export class UsersService {
   }
 
   async update(updateUserDto: UpdateUserDto) {
-    return await this.userModel.updateOne(
-      { _id: updateUserDto._id },
-      { ...updateUserDto },
-    );
+    // return await this.userModel.updateOne(
+    //   { _id: updateUserDto._id },
+    //   { ...updateUserDto },
+    // );
   }
 
   async remove(_id: string) {
@@ -99,18 +99,18 @@ export class UsersService {
       name,
       email,
       password: hashPassword,
-      isActive: false,
       codeId: codeId,
       codeExpired: dayjs().add(1, 'minutes'),
     });
 
+    //Send email
     this.mailerService
       .sendMail({
         to: user.email, // list of receivers
         subject: 'Activated account', // Subject line
         template: 'register', //template html
         context: {
-          name: user.name ?? user.email,
+          name: user.name,
           activatedCode: codeId,
         },
       })

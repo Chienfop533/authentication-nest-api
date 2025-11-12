@@ -1,17 +1,9 @@
-import { IsMongoId, IsNotEmpty, IsOptional } from 'class-validator';
+import { OmitType, PartialType } from '@nestjs/mapped-types';
+import { IsMongoId, IsNotEmpty } from 'class-validator';
+import { CreateUserDto } from './create-user.dto';
 
-export class UpdateUserDto {
-  @IsMongoId({ message: '_id không hợp lệ' })
-  @IsNotEmpty({ message: '_id không được để trống' })
-  _id: string;
-  @IsOptional()
-  name: string;
-  @IsOptional()
-  email: string;
-  @IsOptional()
-  phone: string;
-  @IsOptional()
-  address: string;
-  @IsOptional()
-  image: string;
+export class UpdateUserDto extends PartialType(
+  OmitType(CreateUserDto, ['password'] as const),
+) {
+  // Thêm các trường khác tuỳ ý ở đây
 }
